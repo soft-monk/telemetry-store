@@ -1,0 +1,26 @@
+# 构建产物
+build/
+build-*/
+out/
+*.obj
+*.o
+*.a
+*.lib
+*.exe
+*.pdb
+*.ilk
+*.exp
+*.log
+
+# 段文件后端的运行期数据（测试/示例会在临时目录或这里生成）
+segfile_check/
+*.seg
+*.seg.tmp
+
+# 编辑器 / 系统
+.vs/
+.vscode/
+.idea/
+*.swp
+Thumbs.db
+desktop.ini

@@ -1,0 +1,37 @@
+# .gitattributes · 统一换行与二进制判定
+#
+# 为什么需要它：本仓在 Windows 上开发（MSVC），但同样要能在 Linux/macOS 上构建。
+# 没有这个文件时，git 会按 core.autocrlf 各自转换，造成"同一文件在两边反复显示已修改"的噪音，
+# 更糟的是 shell 脚本被转成 CRLF 后在 Linux 上会直接报 `bad interpreter`。
+#
+# 口径：**仓库里一律存 LF**，检出时由各平台自行决定（工作区可以是 CRLF，不影响仓库内容）。
+
+# 默认：自动判定文本/二进制，文本入库统一 LF
+* text=auto eol=lf
+
+# shell 脚本必须是 LF（CRLF 会让 shebang 失效）
+*.sh text eol=lf
+
+# PowerShell 脚本保持仓库内 LF；注意 build.ps1 还需带 UTF-8 BOM，
+# 否则 Windows PowerShell 5.1 会按 ANSI(GBK) 解码中文注释并报 ParserError。
+*.ps1 text eol=lf
+
+# 源码与文档
+*.c    text eol=lf
+*.cc   text eol=lf
+*.h    text eol=lf
+*.hpp  text eol=lf
+*.md   text eol=lf
+*.txt  text eol=lf
+*.json text eol=lf
+
+# 内置第三方单头文件：内容不允许被任何转换动到（改了哈希就对不上上游）
+third_party/** -text
+
+# 二进制
+*.png binary
+*.jpg binary
+*.ico binary
+*.exe binary
+*.lib binary
+*.obj binary
